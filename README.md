@@ -1,22 +1,18 @@
 #AndroRAT
-
-This App is the refacing of the old Androrat, developed by this guy: https://github.com/DesignativeDave/androrat. You can see my changes on bottom of this page. 
-
-<b>DISCLAIMER: This software is meant for educational purposes only. I don't feel responsible for any malicious use of the app.</b>
-
-You can follow my guide inside the <i>doc</i> folder to install and setting the software. 
+ 
+<b>DISCLAIMER: This software is meant for educational purposes only. We are not responsible for any malicious use of the app.</b>
 
 <b>Remember that if you want to use this software on your home network you should use a private ip, but if you want to use this application remotely, you must use a public IP. In every case, you should open TCP-UDP port in your router.</b>
 
-#Old AndroRAT
-Remote Administration Tool for Android
+
+## Remote Administration Tool for Android
 
 Androrat is a client/server application developed in Java Android for the client side and in Java/Swing for the Server.
 
 The name Androrat is a mix of Android and RAT (Remote Access Tool).
-It has been developed in a team of 4 for a university project. It has been realised in one month. The goal of the application is to give the control of the android system remotely and retrieve informations from it.
 
-#Available functionalities
+
+## Available features
 
 Get contacts (and all theirs informations)
 
@@ -48,16 +44,8 @@ Do vibrate the phone
 
 #Changelog:
 
--min SDK required: 17;
+-fixed camera and phototaker problems
 
--RAT is binded inside another application;
-
--fixed camera and phototaker problems;
-
--now application it's not killed by android;
-
--fixed problems on boot, it's not shows any errors;
-
--minor improvements;
+-added lib to project for quicker android build
 
 
