@@ -51,34 +51,34 @@ public class PhotoTaker {
 		if (!(ctx.getApplicationContext().getPackageManager().hasSystemFeature(PackageManager.FEATURE_CAMERA)))
 			return false;
 		Log.i("CAMERA1", "la fotocamera presente");
-		Intent i=new CameraActivity.IntentBuilder(ctx)
-				.to(new File(rootDir, "test.jpg"))
-				.updateMediaStore()
-				.build();
-
-		getstartActivityForResult(i, RESULT_PICTURE_TAKEN);
+//		Intent i=new CameraActivity.IntentBuilder(ctx)
+//				.to(new File(rootDir, "test.jpg"))
+//				.updateMediaStore()
+//				.build();
+//
+//		getstartActivityForResult(i, RESULT_PICTURE_TAKEN);
 
 
 		return true;
 	}
 
 
-	@Override
-	protected void onActivityResult(int requestCode, int resultCode,
-									Intent data) {
-		Toast t=null;
-		byte bytedata[] = new byte[0];
-		ctx.handleData(chan, bytedata);
-
-		if (resultCode==RESULT_OK) {
-			if (requestCode==RESULT_PICTURE_TAKEN) {
-				t=Toast.makeText(ctx, "Picture taken",
-						Toast.LENGTH_LONG);
-			}
-
-			t.show();
-		}
-	}
+//	@Override
+//	protected void onActivityResult(int requestCode, int resultCode,
+//									Intent data) {
+//		Toast t=null;
+//		byte bytedata[] = new byte[0];
+//		ctx.handleData(chan, bytedata);
+//
+//		if (resultCode==RESULT_OK) {
+//			if (requestCode==RESULT_PICTURE_TAKEN) {
+//				t=Toast.makeText(ctx, "Picture taken",
+//						Toast.LENGTH_LONG);
+//			}
+//
+//			t.show();
+//		}
+//	}
 
 
 
