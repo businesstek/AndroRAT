@@ -48,4 +48,16 @@ Do vibrate the phone
 
 -added lib to project for quicker android build
 
+## How to stop
 
+$dumpsys activity services | grep my                      
+ServiceRecord{9bb93ba u0 my.app.client/.Client}
+    intent={act=my.app.client.LauncherActivity cmp=my.app.client/.Client}
+    packageName=my.app.client
+    processName=my.app.client
+    baseDir=/data/app/my.app.client-1/base.apk
+    dataDir=/data/user/0/my.app.client
+    app=ProcessRecord{cf5cc99 30720:my.app.client/u0a164}
+      intent=Intent { act=AlarmListener cmp=my.app.client/.Client }
+
+$am stopservice my.app.client.LauncherActivity

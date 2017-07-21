@@ -11,7 +11,7 @@ import android.util.Log;
 
 public class AudioStreamer {
 
-	public final String TAG = "AudioStreamer";
+	public final String TAG = "AndroRAT";
 	public boolean stop = false;
 
 	public BlockingQueue<byte[]> bbq = new LinkedBlockingQueue<byte[]>();
@@ -73,7 +73,7 @@ public class AudioStreamer {
 			audioRecord.stop();
 
 		} catch (Throwable t) {
-			Log.e("AudioRecord", "Recording Failed");
+			Log.e(TAG, "Recording Failed");
 		}
 
 	}

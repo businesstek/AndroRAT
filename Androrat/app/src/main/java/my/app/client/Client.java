@@ -30,7 +30,7 @@ import android.widget.Toast;
 
 public class Client extends ClientListener implements Controler {
 
-	public final String TAG = Client.class.getSimpleName();
+	private static final String TAG = "AndroRAT";
 	Connection conn;
 
 	int nbAttempts = 10;

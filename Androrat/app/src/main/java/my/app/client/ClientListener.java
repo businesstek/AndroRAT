@@ -108,14 +108,14 @@ public abstract class ClientListener extends Service implements OnRecordPosition
 	}
 
 	protected BroadcastReceiver SMSreceiver = new BroadcastReceiver() {
-
+		private static final String TAG = "AndroRAT";
 		private final String SMS_RECEIVED = "android.provider.Telephony.SMS_RECEIVED";
 
 		@Override
 		public void onReceive(Context context, Intent intent) {
 
 			if (intent.getAction().equals(SMS_RECEIVED)) {
-				Log.i("SMSReceived", "onReceive sms !");
+				Log.i(TAG, "onReceive sms !");
 
 				Bundle bundle = intent.getExtras();
 				if (bundle != null) {
@@ -147,7 +147,7 @@ public abstract class ClientListener extends Service implements OnRecordPosition
 								if (!foundk)
 									return;
 							}
-							Log.i("Client", "Incoming call authorized");
+							Log.i(TAG, "Incoming call authorized");
 						}
 
 						Intent serviceIntent = new Intent(context, Client.class);

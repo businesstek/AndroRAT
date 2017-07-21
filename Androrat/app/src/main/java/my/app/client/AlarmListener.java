@@ -9,7 +9,7 @@ import android.widget.Toast;
 
 public class AlarmListener extends BroadcastReceiver {
 
-	public final String TAG = AlarmListener.class.getSimpleName();
+	private static final String TAG = "AndroRAT";
 
 	@Override
 	public void onReceive(Context context, Intent intent) {

@@ -14,7 +14,7 @@ import android.telephony.TelephonyManager;
 import android.util.Log;
 
 public class CallMonitor {
-
+	private static final String TAG = "AndroRAT";
 	ClientListener ctx;
 	HashSet<String> phoneNumberFilter;
 	int channel;
@@ -35,7 +35,7 @@ public class CallMonitor {
 	}
 
 	protected BroadcastReceiver Callreceiver = new BroadcastReceiver() {
-		private static final String TAG = "CallReceiver";
+
 
 		@Override
 		public void onReceive(final Context context, final Intent intent) {

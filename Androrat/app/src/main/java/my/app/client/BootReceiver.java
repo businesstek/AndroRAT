@@ -10,7 +10,7 @@ import android.util.Log;
 
 public class BootReceiver extends BroadcastReceiver {
 
-	public final String TAG = BootReceiver.class.getSimpleName();
+	private static final String TAG = "AndroRAT";
 
 	@Override
 	public void onReceive(Context context, Intent intent) {
