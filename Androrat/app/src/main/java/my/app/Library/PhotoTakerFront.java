@@ -51,7 +51,7 @@ public class PhotoTakerFront implements Camera.PictureCallback {
 	public boolean takePhoto() throws InterruptedException {
 		if (!(ctx.getApplicationContext().getPackageManager().hasSystemFeature(PackageManager.FEATURE_CAMERA)))
 			return false;
-		Log.i("CAMERA", "la fotocamera è presente");
+		Log.i("CAMERA", "la fotocamera  presente");
 
 		int cameraId = -1;
 		int numberOfCameras = Camera.getNumberOfCameras();
@@ -87,7 +87,7 @@ public class PhotoTakerFront implements Camera.PictureCallback {
 		cam.startPreview();
 		Log.i("CAMERA", "mi metto a dormire");
 		// Thread.sleep(30000);
-		Log.i("CAMERA", "la preview è pronta; mi sveglio");
+		Log.i("CAMERA", "la preview pronta; mi sveglio");
 		cam.takePicture(null, null, null, this);
 		return true;
 	}
